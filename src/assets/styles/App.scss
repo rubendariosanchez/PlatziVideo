@@ -1,8 +1,11 @@
-$main-color: red;
-$color-text: blue;
+@import './Vars.scss';
+@import './Media.scss';
+body {
+  margin: 0;
+  background: $main-color;
+  font-family: $theme-font;
+}
 
-body{
-    margin: 0;
-    background-color: $main-color;
-    color: $color-text;
+* {
+  box-sizing: border-box;
 }

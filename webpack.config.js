@@ -12,8 +12,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
@@ -33,7 +32,21 @@ module.exports = {
           'css-loader',
           'sass-loader'
         ]
-      }  
+      },
+      {
+        test: /\.(png|gif|jpg)$/,
+        use: [{
+          loader: 'file-loader',
+          options: {
+            name: 'assets/icons/[hash].[ext]'
+              //name: 'assets/static/[name].[ext]'
+          }
+        }],
+      },
+      /*{
+        test: /\.(png|gif|jpg)$/,
+        loader: 'url-loader'
+      }*/
     ],
   },
   plugins: [
@@ -42,7 +55,7 @@ module.exports = {
       filename: './index.html',
     }),
     new MiniCssExtractPlugin({
-        filename: 'assets/[name].css',
+      filename: 'assets/[name].css',
     }),
   ],
 };
