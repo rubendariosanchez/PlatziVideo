@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
+import {connect} from 'react-redux';
+import {loginRequest} from '../actions';
 import {Link} from 'react-router-dom';
 import '../assets/styles/components/Login.scss';
 import googleIcon from '../assets/static/google-icon.png';
 import twitterIcon from '../assets/static/twitter-icon.png';
 
-const Login = () =>{
+const Login = props =>{
 
     const [form, setValues ] = useState({
         email: '',
@@ -20,10 +22,9 @@ const Login = () =>{
 
     const handlerSubmit = event => {
         event.preventDefault();
-
-        console.log(form);
-        console.table(form);
-    }
+        props.loginRequest(form);
+        props.history.push("/"); 
+    };
 
     return (
         <section className="login">
@@ -34,6 +35,7 @@ const Login = () =>{
                         className="input"
                         type="text"
                         placeholder="Correo"
+                        required={true}
                         name="email"
                         onChange={handlerInput}
                     />
@@ -41,6 +43,7 @@ const Login = () =>{
                         className="input"
                         type="password"
                         placeholder="Contraseña"
+                        required={true}
                         name="password"
                         onChange={handlerInput}
                     />
@@ -57,7 +60,7 @@ const Login = () =>{
                     <div><img src={twitterIcon}/> Inicia sesión con Twitter</div>
                 </section>
                 <p className="login__container--register">
-                    No tienes ninguna cuenta 
+                    No tienes ninguna cuenta{' '}
                     <Link to="/register">
                         Regístrate
                     </Link>
@@ -67,4 +70,9 @@ const Login = () =>{
     );
 }
 
-export default Login;
+const mapDispatchToProps = {
+    loginRequest: loginRequest
+};
+
+//export default Login;
+export default connect(null, mapDispatchToProps)(Login);
