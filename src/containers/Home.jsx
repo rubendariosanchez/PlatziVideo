@@ -1,15 +1,12 @@
 import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 import Search from '../componets/Search';
 import Categories from '../componets/Categories';
 import Carousel from '../componets/Carousel';
 import CarouselItem from '../componets/CarouselItem';
-import useInitialState from '../hooks/useInitialState.js';
 import '../assets/styles/App.scss';
 
-const API = "http://localhost:3000/initalState";
-const Home = () => {   
-    
-    const videos = useInitialState(API);
+const Home = ({myList, trends, originals}) => {
 
     const renderList = (list = []) => {
         return (
@@ -24,23 +21,31 @@ const Home = () => {
     return (
         <>
           <Search />
-          {videos.mylist && videos.mylist.length > 0 && (
+          {myList.length > 0 && (
             <Categories title="Mi Lista">
-              <Carousel>{renderList(videos.mylist)}</Carousel>
+              <Carousel>{renderList(myList)}</Carousel>
             </Categories>
           )}
-          {videos.trends && videos.trends.length > 0 && (
+          {trends.length > 0 && (
             <Categories title="Tendencias">
-              <Carousel>{renderList(videos.trends)}</Carousel>
+              <Carousel>{renderList(trends)}</Carousel>
             </Categories>
           )}
-          {videos.originals && videos.originals.length > 0 && (
+          {originals.length > 0 && (
             <Categories title="Originales ">
-              <Carousel>{renderList(videos.originals)}</Carousel>
+              <Carousel>{renderList(originals)}</Carousel>
             </Categories>
           )}
         </>
       );
 }
 
-export default Home;
+const mapStateToProps = state => {
+  return {
+    myList: state.myList,
+    trends: state.trends,
+    originals: state.originals
+  };
+};
+
+export default connect(mapStateToProps, null)(Home);
